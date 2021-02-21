@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd /tmp
+
 EXPECTED_SIGNATURE=$(wget https://composer.github.io/installer.sig -O - -q)
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 ACTUAL_SIGNATURE=$(php -r "echo hash_file('SHA384', 'composer-setup.php');")
@@ -9,7 +11,7 @@ then
     php composer-setup.php --quiet
     RESULT=$?
     rm composer-setup.php
-    mv /composer.phar /usr/local/bin/composer
+    mv /tmp/composer.phar /usr/local/bin/composer
     exit $RESULT
 else
     >&2 echo 'ERROR: Invalid installer signature'
